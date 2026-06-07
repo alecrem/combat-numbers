@@ -1,6 +1,7 @@
 import { bracketLabel } from '../format';
 import { bracketFromRoll } from '../game/power';
 import type { CharacterCard, DiceBracket } from '../game/types';
+import { useI18n } from '../i18n/LanguageContext';
 
 const BRACKETS: DiceBracket[] = ['low', 'mid', 'high'];
 
@@ -12,11 +13,13 @@ type Props = {
 };
 
 export function CharacterCardView({ card, onClick, roll }: Props) {
+  const { t } = useI18n();
   const active = roll != null ? bracketFromRoll(roll) : null;
+  const name = t.cards[card.id] ?? card.name;
 
   const body = (
     <>
-      <span className="card-name">{card.name}</span>
+      <span className="card-name">{name}</span>
       <ul className="powers">
         {BRACKETS.map((b) => (
           <li key={b} className={active === b ? 'power active' : 'power'}>

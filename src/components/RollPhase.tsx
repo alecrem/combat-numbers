@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CharacterCard } from '../game/types';
+import { useI18n } from '../i18n/LanguageContext';
 import { DuelSide } from './DuelSide';
 
 const SPIN_MS = 800;
@@ -19,6 +20,7 @@ type Props = {
  * la fase siguiente (tramo resaltado + poder), con el dado conservado en su sitio.
  */
 export function RollPhase({ cpu, player, onRoll }: Props) {
+  const { t } = useI18n();
   const [rolling, setRolling] = useState(false);
   const [faces, setFaces] = useState({ player: 1, cpu: 1 });
   const timer = useRef<number | null>(null);
@@ -46,24 +48,24 @@ export function RollPhase({ cpu, player, onRoll }: Props) {
 
   return (
     <section className="phase">
-      <p className="prompt">¡Personajes en juego! Tira el dado</p>
+      <p className="prompt">{t.prompts.rollPhase}</p>
       <div className="duel">
         <DuelSide
-          label="CPU"
+          label={t.hud.cpu}
           card={cpu}
           roll={null}
           die={{ value: faces.cpu, spinning: rolling }}
         />
         <span className="vs">vs</span>
         <DuelSide
-          label="Tú"
+          label={t.hud.you}
           card={player}
           roll={null}
           die={{ value: faces.player, spinning: rolling }}
         />
       </div>
       <button type="button" className="action" onClick={handleRoll} disabled={rolling}>
-        {rolling ? 'Tirando…' : 'Tirar dado'}
+        {rolling ? t.buttons.rolling : t.buttons.roll}
       </button>
     </section>
   );

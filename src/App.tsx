@@ -3,12 +3,15 @@ import { CharacterCardView } from './components/CharacterCardView';
 import { DuelSide } from './components/DuelSide';
 import { Hud } from './components/Hud';
 import { ItemCardView } from './components/ItemCardView';
+import { LanguageSelector } from './components/LanguageSelector';
 import { RollPhase } from './components/RollPhase';
 import { basePower, finalPower } from './game/power';
 import type { GameState } from './game/types';
+import { useI18n } from './i18n/LanguageContext';
 import { useGame, type TurnSnapshot } from './useGame';
 
 export default function App() {
+  const { t } = useI18n();
   const {
     state,
     result,
@@ -21,14 +24,20 @@ export default function App() {
 
   return (
     <div className="game">
-      <Hud title="CPU" side={state.cpu} revealItems={false} />
+      <div className="topbar">
+        <LanguageSelector />
+      </div>
+
+      <Hud title={t.hud.cpu} side={state.cpu} revealItems={false} />
 
       <main className="board">
         {result ? (
           <TurnResult result={result} state={state} onContinue={continueAfterResult} />
         ) : state.phase === 'choose-character' ? (
           <CharacterPicker state={state} onPick={selectCharacter} />
-        ) : state.phase === 'reveal-roll' && state.turn.chosen.cpu && state.turn.chosen.player ? (
+        ) : state.phase === 'reveal-roll' &&
+          state.turn.chosen.cpu &&
+          state.turn.chosen.player ? (
           <RollPhase
             cpu={state.turn.chosen.cpu}
             player={state.turn.chosen.player}
@@ -41,7 +50,7 @@ export default function App() {
         )}
       </main>
 
-      <Hud title="Tú" side={state.player} revealItems />
+      <Hud title={t.hud.you} side={state.player} revealItems />
     </div>
   );
 }
@@ -53,9 +62,10 @@ function CharacterPicker({
   state: GameState;
   onPick: (id: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <section className="phase">
-      <p className="prompt">Elige tu personaje</p>
+      <p className="prompt">{t.prompts.chooseCharacter}</p>
       <div className="hand">
         {state.player.characters.map((card) => (
           <CharacterCardView key={card.id} card={card} onClick={() => onPick(card.id)} />
@@ -72,6 +82,7 @@ function ItemPicker({
   state: GameState;
   onChoose: (id: string | null) => void;
 }) {
+  const { t } = useI18n();
   const { chosen, roll } = state.turn;
   if (!chosen.player || !chosen.cpu || roll.player === null || roll.cpu === null) {
     return null;
@@ -81,7 +92,7 @@ function ItemPicker({
     <section className="phase">
       <div className="duel">
         <DuelSide
-          label="CPU"
+          label={t.hud.cpu}
           card={chosen.cpu}
           roll={roll.cpu}
           die={{ value: roll.cpu }}
@@ -89,7 +100,7 @@ function ItemPicker({
         />
         <span className="vs">vs</span>
         <DuelSide
-          label="Tú"
+          label={t.hud.you}
           card={chosen.player}
           roll={roll.player}
           die={{ value: roll.player }}
@@ -97,10 +108,10 @@ function ItemPicker({
         />
       </div>
 
-      <p className="prompt">¿Usar un objeto?</p>
+      <p className="prompt">{t.prompts.useItem}</p>
       {state.player.itemHand.length === 0 ? (
         <button type="button" className="action" onClick={() => onChoose(null)}>
-          No tengo objetos — resolver turno
+          {t.buttons.noItemsResolve}
         </button>
       ) : (
         <div className="hand">
@@ -108,7 +119,7 @@ function ItemPicker({
             <ItemCardView key={item.id} item={item} onClick={() => onChoose(item.id)} />
           ))}
           <button type="button" className="action subtle" onClick={() => onChoose(null)}>
-            Sin objeto
+            {t.buttons.noItem}
           </button>
         </div>
       )}
@@ -125,60 +136,64 @@ function TurnResult({
   state: GameState;
   onContinue: () => void;
 }) {
+  const { t } = useI18n();
   const playerPower = finalPower(result.player.card, result.player.roll, result.player.item);
   const cpuPower = finalPower(result.cpu.card, result.cpu.roll, result.cpu.item);
   const outcome = state.lastOutcome;
 
   const headline =
     outcome?.kind === 'tie'
-      ? 'Empate — los personajes vuelven a la mano'
+      ? t.result.tie
       : outcome?.winner === 'player'
-        ? '¡Ganas el turno!'
-        : 'La CPU gana el turno';
+        ? t.result.youWin
+        : t.result.cpuWins;
 
   return (
     <section className="phase result">
       <p className="headline">{headline}</p>
       <div className="duel">
         <DuelSide
-          label="CPU"
+          label={t.hud.cpu}
           card={result.cpu.card}
           roll={result.cpu.roll}
           die={{ value: result.cpu.roll }}
           power={cpuPower}
-          itemName={result.cpu.item?.name ?? null}
+          itemName={result.cpu.item ? (t.cards[result.cpu.item.id] ?? result.cpu.item.name) : null}
           winner={outcome?.kind === 'win' && outcome.winner === 'cpu'}
         />
         <span className="vs">vs</span>
         <DuelSide
-          label="Tú"
+          label={t.hud.you}
           card={result.player.card}
           roll={result.player.roll}
           die={{ value: result.player.roll }}
           power={playerPower}
-          itemName={result.player.item?.name ?? null}
+          itemName={
+            result.player.item ? (t.cards[result.player.item.id] ?? result.player.item.name) : null
+          }
           winner={outcome?.kind === 'win' && outcome.winner === 'player'}
         />
       </div>
       <button type="button" className="action" onClick={onContinue}>
-        Continuar
+        {t.buttons.continue}
       </button>
     </section>
   );
 }
 
 function GameOver({ state, onRestart }: { state: GameState; onRestart: () => void }) {
+  const { t } = useI18n();
   const message = state.isDraw
-    ? 'Empate: ninguno puede sacar personaje'
+    ? t.gameOver.draw
     : state.winner === 'player'
-      ? '🏆 ¡Has ganado la partida!'
-      : 'La CPU ha ganado la partida';
+      ? t.gameOver.youWon
+      : t.gameOver.cpuWon;
 
   return (
     <section className="phase game-over">
       <p className="headline">{message}</p>
       <button type="button" className="action" onClick={onRestart}>
-        Nueva partida
+        {t.buttons.newGame}
       </button>
     </section>
   );
