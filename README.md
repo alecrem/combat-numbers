@@ -1,73 +1,44 @@
-# React + TypeScript + Vite
+# Combat Numbers
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Juego de cartas por turnos contra la CPU, jugable en el navegador y 100% en
+local (sin servidor). Cada jugador tiene 6 personajes y un mazo de 3 objetos;
+cada turno ambos sacan un personaje, se tira un dado que decide su poder, se
+puede usar un objeto y gana el de mayor poder. Ganar turnos roba objetos y la 4ª
+victoria gana la partida. Las reglas completas están en [`spec.md`](spec.md).
 
-Currently, two official plugins are available:
+Stack: Vite + React + TypeScript, con la lógica del juego como un reducer puro
+separado de la UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requisitos
 
-## React Compiler
+- Node 22+
+- pnpm
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Puesta en marcha
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev      # servidor de desarrollo (http://localhost:5173)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `pnpm dev` — servidor de desarrollo con HMR.
+- `pnpm build` — typecheck + build de producción.
+- `pnpm test` — tests (Vitest).
+- `pnpm typecheck` — comprobación de tipos.
+- `pnpm lint` — ESLint.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Idiomas
+
+La interfaz está localizada en **español, japonés e inglés**, con selector de
+idioma arriba a la derecha. La preferencia se guarda en `localStorage`. Las
+traducciones viven en [`src/i18n/`](src/i18n/).
+
+## Estructura
+
+- `src/game/` — lógica pura del juego (tipos, cartas, dados, IA, reducer) y sus
+  tests. No depende de React.
+- `src/i18n/` — diccionario de traducciones y contexto de idioma.
+- `src/components/` — componentes de UI.
+- `src/useGame.ts` — hook que conecta el reducer puro con React (dados + IA).

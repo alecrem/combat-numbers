@@ -1,5 +1,6 @@
-import { itemEffectLabel } from '../format';
 import type { ItemCard } from '../game/types';
+import { useI18n } from '../i18n/LanguageContext';
+import { effectLabel } from '../i18n/effect';
 
 type Props = {
   item: ItemCard;
@@ -7,10 +8,13 @@ type Props = {
 };
 
 export function ItemCardView({ item, onClick }: Props) {
+  const { t } = useI18n();
+  const name = t.cards[item.id] ?? item.name;
+
   const body = (
     <>
-      <span className="card-name">{item.name}</span>
-      <span className="item-effect">{itemEffectLabel(item.effect)}</span>
+      <span className="card-name">{name}</span>
+      <span className="item-effect">{effectLabel(t, item.effect)}</span>
     </>
   );
 

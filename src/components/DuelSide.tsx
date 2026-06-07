@@ -1,4 +1,5 @@
 import type { CharacterCard } from '../game/types';
+import { useI18n } from '../i18n/LanguageContext';
 import { CharacterCardView } from './CharacterCardView';
 import { Die } from './Die';
 
@@ -18,13 +19,14 @@ type Props = {
 };
 
 export function DuelSide({ label, card, roll, die, power, itemName, winner }: Props) {
+  const { t } = useI18n();
   return (
     <div className={winner ? 'duel-side winner' : 'duel-side'}>
       <span className="duel-label">{label}</span>
       <CharacterCardView card={card} roll={roll} />
       {die && <Die value={die.value} spinning={die.spinning} />}
       {itemName !== undefined && (
-        <span className="duel-item">{itemName ?? 'sin objeto'}</span>
+        <span className="duel-item">{itemName ?? t.noItem}</span>
       )}
       {power != null && <span className="big-power">{power}</span>}
     </div>

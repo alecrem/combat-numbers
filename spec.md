@@ -80,6 +80,18 @@ del Item aplicado (si hay).
 - CPU: otros 6 personajes + 3 Items.
 - Cada set de 3 valores de poder de un personaje suma 500 (de momento).
 
+## Internacionalización (i18n)
+
+- Idiomas: español, japonés e inglés. Diccionario tipado propio en `src/i18n/`
+  (sin dependencias externas).
+- `translations.ts`: textos de chrome (garantizados por el tipo) y nombres de
+  carta por id (`cards`, verificados con un test de cobertura).
+- `LanguageContext.ts` (contexto + `useI18n`) y `LanguageProvider.tsx` (estado +
+  persistencia en `localStorage` + `lang` del `<html>`). Idioma inicial:
+  preferencia guardada → idioma del navegador → `es`.
+- Selector de idioma en la UI. Se traducen también los nombres de personajes y
+  objetos y las etiquetas de efecto (`×2`/`+N`).
+
 ## Pendiente / futuro
 
 - Más efectos de Item.
@@ -105,3 +117,7 @@ del Item aplicado (si hay).
 - **Dado persistente:** el dado (`Die`) es prop de `DuelSide` y se conserva en su
   sitio al cambiar de fase (tirada → objeto → resultado), mostrando el número que
   salió para que no se pierda al pasar de pantalla.
+- **i18n (#1):** localización es/ja/en con diccionario tipado propio en
+  `src/i18n/`, contexto + `localStorage` y selector de idioma. Se traduce toda la
+  UI, incluidos nombres de cartas y etiquetas de efecto. Test de cobertura de
+  traducciones. 31 tests en verde.
