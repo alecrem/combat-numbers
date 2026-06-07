@@ -5,6 +5,10 @@ import {
   PLAYER_CHARACTERS,
   PLAYER_ITEMS,
 } from './cards';
+import type { CharacterCard } from './types';
+
+const total = (card: CharacterCard) =>
+  card.power.low + card.power.mid + card.power.high;
 
 describe('initial cards', () => {
   it('gives each side 6 characters and 3 items', () => {
@@ -14,10 +18,18 @@ describe('initial cards', () => {
     expect(CPU_ITEMS).toHaveLength(3);
   });
 
-  it('every character sums 500 across its three powers', () => {
+  it('every character sums 500 or 1000 across its three powers', () => {
     for (const card of [...PLAYER_CHARACTERS, ...CPU_CHARACTERS]) {
-      const total = card.power.low + card.power.mid + card.power.high;
-      expect(total, card.name).toBe(500);
+      expect([500, 1000], card.name).toContain(total(card));
+    }
+  });
+
+  it('gives each side two 1000-point characters and totals 4000', () => {
+    for (const side of [PLAYER_CHARACTERS, CPU_CHARACTERS]) {
+      const big = side.filter((card) => total(card) === 1000);
+      expect(big).toHaveLength(2);
+      const sideTotal = side.reduce((sum, card) => sum + total(card), 0);
+      expect(sideTotal).toBe(4000);
     }
   });
 
