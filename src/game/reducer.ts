@@ -19,13 +19,8 @@ import type {
 } from './types';
 
 export type GameAction =
-  | {
-      type: 'SELECT_CHARACTER';
-      playerCharacterId: string;
-      cpuCharacterId: string;
-      playerRoll: number;
-      cpuRoll: number;
-    }
+  | { type: 'SELECT_CHARACTER'; playerCharacterId: string; cpuCharacterId: string }
+  | { type: 'ROLL_DICE'; playerRoll: number; cpuRoll: number }
   | { type: 'SELECT_ITEM'; playerItemId: string | null; cpuItemId: string | null }
   | { type: 'NEW_GAME' };
 
@@ -97,11 +92,28 @@ function selectCharacter(
 
   return {
     ...state,
-    phase: 'choose-item',
+    phase: 'reveal-roll',
     turn: {
       chosen: { player: playerCard, cpu: cpuCard },
-      roll: { player: action.playerRoll, cpu: action.cpuRoll },
+      roll: { player: null, cpu: null },
       item: { player: null, cpu: null },
+    },
+  };
+}
+
+function rollDice(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ROLL_DICE' }>,
+): GameState {
+  if (state.phase !== 'reveal-roll') return state;
+  if (!state.turn.chosen.player || !state.turn.chosen.cpu) return state;
+
+  return {
+    ...state,
+    phase: 'choose-item',
+    turn: {
+      ...state.turn,
+      roll: { player: action.playerRoll, cpu: action.cpuRoll },
     },
   };
 }
@@ -218,6 +230,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return createInitialState();
     case 'SELECT_CHARACTER':
       return selectCharacter(state, action);
+    case 'ROLL_DICE':
+      return rollDice(state, action);
     case 'SELECT_ITEM':
       return selectItem(state, action);
   }

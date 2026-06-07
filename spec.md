@@ -42,8 +42,10 @@ La **lógica del juego** vive separada de React por completo:
 
 1. **`choose-character`** — cada jugador elige un personaje boca abajo. Decisión
    simultánea y oculta. Jugador por UI, CPU por IA.
-2. **`reveal-roll`** — se descubren los dos personajes y cada jugador tira su
-   propio dado (d6) → bracket → poder base. Automático.
+2. **`reveal-roll`** — se descubren las dos cartas completas (aún sin dado). El
+   jugador pulsa "Tirar dado": breve animación y cada jugador tira su d6 → bracket
+   → poder base. El poder se muestra en grande fuera de la carta (luego el Item
+   puede modificarlo) y se resalta el tramo aplicado.
 3. **`choose-item`** — quien tenga Items en mano decide jugar uno o ninguno.
    Simultáneo y oculto. Ya conoce el poder final del dado al decidir.
 4. **`resolve`** — se aplican los Items y se comparan los poderes finales.
@@ -92,3 +94,14 @@ del Item aplicado (si hay).
 - **Esqueleto + lógica pura:** scaffold Vite + React 19 + TS (pnpm) y Vitest.
   Módulo `src/game/` con tipos, datos de cartas, `power`, `dice`, `ai` y el
   `reducer`. 26 tests en verde; typecheck y lint limpios. UI aún sin tocar.
+- **UI:** hook `useGame` que envuelve el reducer e inyecta dados + decisiones de
+  la CPU. Pantalla en `App.tsx` con las fases (elegir personaje → elegir objeto
+  → resultado → fin de partida), HUD por jugador y componentes de carta. La foto
+  del turno (`TurnSnapshot`) mantiene visible el resultado hasta "Continuar".
+- **Tirada interactiva:** la fase `reveal-roll` se separa en una acción propia
+  `ROLL_DICE`. Tras elegir personaje se ven ambas cartas; un botón "Tirar dado"
+  lanza una animación (~0.8 s) y luego se ven las cartas con el tramo resaltado y
+  el poder en grande fuera de la carta. Nuevos `DuelSide` y `RollPhase`.
+- **Dado persistente:** el dado (`Die`) es prop de `DuelSide` y se conserva en su
+  sitio al cambiar de fase (tirada → objeto → resultado), mostrando el número que
+  salió para que no se pierda al pasar de pantalla.

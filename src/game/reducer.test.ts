@@ -66,19 +66,17 @@ describe('createInitialState', () => {
 // --- SELECT_CHARACTER -----------------------------------------------------
 
 describe('SELECT_CHARACTER', () => {
-  it('reveals both characters with their rolls and moves to choose-item', () => {
+  it('reveals both characters without rolling yet and moves to reveal-roll', () => {
     const s = createInitialState();
     const next = gameReducer(s, {
       type: 'SELECT_CHARACTER',
       playerCharacterId: 'p-char-1',
       cpuCharacterId: 'c-char-1',
-      playerRoll: 6,
-      cpuRoll: 2,
     });
-    expect(next.phase).toBe('choose-item');
+    expect(next.phase).toBe('reveal-roll');
     expect(next.turn.chosen.player?.id).toBe('p-char-1');
     expect(next.turn.chosen.cpu?.id).toBe('c-char-1');
-    expect(next.turn.roll).toEqual({ player: 6, cpu: 2 });
+    expect(next.turn.roll).toEqual({ player: null, cpu: null });
   });
 
   it('ignores unknown character ids', () => {
@@ -87,8 +85,6 @@ describe('SELECT_CHARACTER', () => {
       type: 'SELECT_CHARACTER',
       playerCharacterId: 'nope',
       cpuCharacterId: 'c-char-1',
-      playerRoll: 1,
-      cpuRoll: 1,
     });
     expect(next).toBe(s);
   });
@@ -99,9 +95,31 @@ describe('SELECT_CHARACTER', () => {
       type: 'SELECT_CHARACTER',
       playerCharacterId: 'p-char-1',
       cpuCharacterId: 'c-char-1',
-      playerRoll: 1,
-      cpuRoll: 1,
     });
+    expect(next).toBe(s);
+  });
+});
+
+describe('ROLL_DICE', () => {
+  it('records both rolls and moves from reveal-roll to choose-item', () => {
+    const revealed = gameReducer(createInitialState(), {
+      type: 'SELECT_CHARACTER',
+      playerCharacterId: 'p-char-1',
+      cpuCharacterId: 'c-char-1',
+    });
+    const next = gameReducer(revealed, {
+      type: 'ROLL_DICE',
+      playerRoll: 6,
+      cpuRoll: 2,
+    });
+    expect(next.phase).toBe('choose-item');
+    expect(next.turn.roll).toEqual({ player: 6, cpu: 2 });
+    expect(next.turn.chosen.player?.id).toBe('p-char-1');
+  });
+
+  it('does nothing outside reveal-roll phase', () => {
+    const s = createInitialState();
+    const next = gameReducer(s, { type: 'ROLL_DICE', playerRoll: 1, cpuRoll: 1 });
     expect(next).toBe(s);
   });
 });

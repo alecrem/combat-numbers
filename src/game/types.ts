@@ -32,7 +32,11 @@ export type PlayerState = {
   wins: number;
 };
 
-export type Phase = 'choose-character' | 'choose-item' | 'game-over';
+export type Phase =
+  | 'choose-character'
+  | 'reveal-roll'
+  | 'choose-item'
+  | 'game-over';
 
 /** Datos del turno en curso. */
 export type TurnState = {
