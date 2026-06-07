@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './App.css';
 import { CharacterCardView } from './components/CharacterCardView';
 import { DuelSide } from './components/DuelSide';
@@ -7,7 +6,7 @@ import { ItemCardView } from './components/ItemCardView';
 import { LanguageSelector } from './components/LanguageSelector';
 import { RollPhase } from './components/RollPhase';
 import { basePower, finalPower } from './game/power';
-import type { GameState, ItemCard } from './game/types';
+import type { GameState } from './game/types';
 import { useI18n } from './i18n/LanguageContext';
 import { useGame, type TurnSnapshot } from './useGame';
 
@@ -84,16 +83,13 @@ function ItemPicker({
   onChoose: (id: string | null) => void;
 }) {
   const { t } = useI18n();
-  const [preview, setPreview] = useState<ItemCard | null>(null);
   const { chosen, roll } = state.turn;
   if (!chosen.player || !chosen.cpu || roll.player === null || roll.cpu === null) {
     return null;
   }
 
-  const playerBase = basePower(chosen.player, roll.player);
-  const playerShown = preview
-    ? finalPower(chosen.player, roll.player, preview)
-    : playerBase;
+  const playerCard = chosen.player;
+  const playerRoll = roll.player;
 
   return (
     <section className="phase">
@@ -108,11 +104,10 @@ function ItemPicker({
         <span className="vs">vs</span>
         <DuelSide
           label={t.hud.you}
-          card={chosen.player}
-          roll={roll.player}
-          die={{ value: roll.player }}
-          power={playerShown}
-          baseline={preview ? playerBase : null}
+          card={playerCard}
+          roll={playerRoll}
+          die={{ value: playerRoll }}
+          power={basePower(playerCard, playerRoll)}
         />
       </div>
 
@@ -128,10 +123,7 @@ function ItemPicker({
               key={item.id}
               item={item}
               onClick={() => onChoose(item.id)}
-              onPreviewStart={() => setPreview(item)}
-              onPreviewEnd={() =>
-                setPreview((current) => (current?.id === item.id ? null : current))
-              }
+              resultPower={finalPower(playerCard, playerRoll, item)}
             />
           ))}
           <button type="button" className="action subtle" onClick={() => onChoose(null)}>

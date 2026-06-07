@@ -12,27 +12,14 @@ type Props = {
   die?: { value: number; spinning?: boolean };
   /** Poder en grande fuera de la carta (base o final con Item). */
   power?: number | null;
-  /** Poder base; si difiere de `power`, se muestra "base → power" (proyección). */
-  baseline?: number | null;
   /** Texto del objeto usado; undefined = no mostrar la línea. */
   itemName?: string | null;
   /** Resalta al ganador del duelo. */
   winner?: boolean;
 };
 
-export function DuelSide({
-  label,
-  card,
-  roll,
-  die,
-  power,
-  baseline,
-  itemName,
-  winner,
-}: Props) {
+export function DuelSide({ label, card, roll, die, power, itemName, winner }: Props) {
   const { t } = useI18n();
-  const projecting = power != null && baseline != null && baseline !== power;
-
   return (
     <div className={winner ? 'duel-side winner' : 'duel-side'}>
       <span className="duel-label">{label}</span>
@@ -41,16 +28,7 @@ export function DuelSide({
       {itemName !== undefined && (
         <span className="duel-item">{itemName ?? t.noItem}</span>
       )}
-      {power != null &&
-        (projecting ? (
-          <span className="power-change">
-            <span className="base-power">{baseline}</span>
-            <span className="arrow">→</span>
-            <span className="big-power preview">{power}</span>
-          </span>
-        ) : (
-          <span className="big-power">{power}</span>
-        ))}
+      {power != null && <span className="big-power">{power}</span>}
     </div>
   );
 }

@@ -5,13 +5,11 @@ import { effectLabel } from '../i18n/effect';
 type Props = {
   item: ItemCard;
   onClick?: () => void;
-  /** Se dispara al pasar el ratón o enfocar el objeto (previsualizar efecto). */
-  onPreviewStart?: () => void;
-  /** Se dispara al salir el ratón o quitar el foco. */
-  onPreviewEnd?: () => void;
+  /** Poder resultante de tu personaje si usas este objeto. */
+  resultPower?: number;
 };
 
-export function ItemCardView({ item, onClick, onPreviewStart, onPreviewEnd }: Props) {
+export function ItemCardView({ item, onClick, resultPower }: Props) {
   const { t } = useI18n();
   const name = t.cards[item.id] ?? item.name;
 
@@ -19,20 +17,13 @@ export function ItemCardView({ item, onClick, onPreviewStart, onPreviewEnd }: Pr
     <>
       <span className="card-name">{name}</span>
       <span className="item-effect">{effectLabel(t, item.effect)}</span>
+      {resultPower != null && <span className="item-result">→ {resultPower}</span>}
     </>
   );
 
   if (onClick) {
     return (
-      <button
-        type="button"
-        className="card item-card clickable"
-        onClick={onClick}
-        onMouseEnter={onPreviewStart}
-        onMouseLeave={onPreviewEnd}
-        onFocus={onPreviewStart}
-        onBlur={onPreviewEnd}
-      >
+      <button type="button" className="card item-card clickable" onClick={onClick}>
         {body}
       </button>
     );
