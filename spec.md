@@ -145,3 +145,7 @@ del Item aplicado (si hay).
   valores). Nueva regla: cada personaje suma 500 o 1000 y cada jugador suma 4000
   (2 cartas de 1000); `cards.test.ts` actualizado. Localizaciones es/ja/en con
   los nombres nuevos (ja = el de las cartas).
+- **DevOps (#16):** hook de pre-commit sin dependencias (`.githooks/pre-commit`
+  + `core.hooksPath` vía script `prepare`) que corre `pnpm verify` (typecheck +
+  lint + test), y workflow de GitHub Actions que ejecuta esos checks + build en
+  cada PR y push a `main`.
