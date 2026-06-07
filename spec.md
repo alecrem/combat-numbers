@@ -128,3 +128,6 @@ del Item aplicado (si hay).
   (winner/loser/tie): el ganador se realza (escala + glow + animación + chapa
   "🏆 Ganador" textual), el perdedor se atenúa y el empate tiene estilo propio.
   Respeta `prefers-reduced-motion`. El resultado textual sigue en el titular.
+- **Responsive / móvil (#4):** botones con altura de toque mínima (44px) y un
+  breakpoint (≤540px) que ajusta paddings, tamaños de carta/dado/poder y el HUD
+  para que la mano y el duelo reflowen sin desbordar. Solo CSS.

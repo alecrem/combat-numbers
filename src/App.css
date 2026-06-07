@@ -345,6 +345,7 @@
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
+  min-height: 44px;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -361,4 +362,65 @@
 
 .game-over .headline {
   font-size: 1.6rem;
+}
+
+/* --- Responsive / móvil ---------------------------------------------- */
+
+@media (max-width: 540px) {
+  .game {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .board {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .hud {
+    padding: 10px 12px;
+    gap: 8px 16px;
+  }
+
+  .hud-title {
+    min-width: 0;
+    font-size: 1rem;
+  }
+
+  .hud-stats {
+    gap: 14px;
+  }
+
+  .hud-items {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .duel {
+    gap: 10px;
+  }
+
+  .card {
+    min-width: 84px;
+    padding: 10px 8px;
+  }
+
+  .big-power {
+    font-size: 2rem;
+  }
+
+  .die {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+
+  .prompt {
+    font-size: 1.05rem;
+  }
+
+  .headline,
+  .game-over .headline {
+    font-size: 1.25rem;
+  }
 }
