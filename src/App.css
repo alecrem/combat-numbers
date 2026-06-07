@@ -256,6 +256,28 @@
   font-variant-numeric: tabular-nums;
 }
 
+.power-change {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.base-power {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+
+.power-change .arrow {
+  color: var(--muted);
+}
+
+.big-power.preview {
+  color: var(--accent);
+}
+
 /* --- Dice ------------------------------------------------------------ */
 
 .die {

@@ -121,3 +121,6 @@ del Item aplicado (si hay).
   `src/i18n/`, contexto + `localStorage` y selector de idioma. Se traduce toda la
   UI, incluidos nombres de cartas y etiquetas de efecto. Test de cobertura de
   traducciones. 31 tests en verde.
+- **Poder proyectado (#2):** en la fase de objeto, al pasar el ratón o enfocar un
+  objeto se muestra el poder proyectado del jugador como "base → proyectado"
+  (reutiliza `finalPower`); revierte al salir/blur. Sólo presentación.
