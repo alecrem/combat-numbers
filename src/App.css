@@ -204,6 +204,12 @@
   outline: 1px solid var(--accent);
 }
 
+.item-card .item-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--accent);
+}
+
 .item-card .item-effect {
   color: var(--accent);
   font-size: 0.85rem;
@@ -314,9 +320,29 @@
   background: var(--panel-2);
   border: 1px solid var(--line);
   border-radius: 12px;
-  font-size: 1.8rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.die-face {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  width: 68%;
+  height: 68%;
+}
+
+.pip {
+  display: grid;
+  place-items: center;
+}
+
+.pip.on::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .die.spinning {

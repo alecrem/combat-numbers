@@ -1,6 +1,7 @@
 import type { ItemCard } from '../game/types';
 import { useI18n } from '../i18n/LanguageContext';
 import { effectLabel } from '../i18n/effect';
+import { ItemIcon } from './ItemIcon';
 
 type Props = {
   item: ItemCard;
@@ -15,6 +16,7 @@ export function ItemCardView({ item, onClick, resultPower }: Props) {
 
   const body = (
     <>
+      <ItemIcon effect={item.effect} />
       <span className="card-name">{name}</span>
       <span className="item-effect">{effectLabel(t, item.effect)}</span>
       {resultPower != null && <span className="item-result">→ {resultPower}</span>}
