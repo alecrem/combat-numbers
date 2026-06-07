@@ -78,7 +78,8 @@ del Item aplicado (si hay).
 
 - Jugador: 6 personajes + 3 Items.
 - CPU: otros 6 personajes + 3 Items.
-- Cada set de 3 valores de poder de un personaje suma 500 (de momento).
+- Son las cartas reales (las de papel). Cada personaje suma **500 o 1000** entre
+  sus 3 poderes; cada jugador tiene 2 cartas de 1000 y suma **4000** en total.
 
 ## Internacionalización (i18n)
 
@@ -95,7 +96,7 @@ del Item aplicado (si hay).
 ## Pendiente / futuro
 
 - Más efectos de Item.
-- Balance de cartas más allá del "suma 500".
+- Balance de cartas.
 - IA de la CPU más allá de lo básico.
 
 ## Registro de cambios
@@ -140,3 +141,7 @@ del Item aplicado (si hay).
 - **Reorden de layout (#12):** los dos HUDs van arriba (jugador, luego CPU) y el
   tablero debajo, para que el HUD del jugador se vea sin scroll. En el duelo, el
   jugador queda a la izquierda y la CPU a la derecha en todas las fases.
+- **Cartas reales (#14):** `cards.ts` refleja las cartas de papel (nombres y
+  valores). Nueva regla: cada personaje suma 500 o 1000 y cada jugador suma 4000
+  (2 cartas de 1000); `cards.test.ts` actualizado. Localizaciones es/ja/en con
+  los nombres nuevos (ja = el de las cartas).
