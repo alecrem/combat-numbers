@@ -191,42 +191,71 @@
   font-weight: 700;
 }
 
-.revealed {
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px 18px;
+.duel-side {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  min-width: 120px;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 2px solid transparent;
 }
 
-.revealed-label {
+.duel-side.winner {
+  border-color: var(--win);
+  background: rgba(90, 209, 154, 0.1);
+}
+
+.duel-label {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--muted);
 }
 
-.revealed-name {
-  font-weight: 700;
-}
-
-.revealed-roll {
-  font-size: 0.9rem;
-}
-
-.revealed-item {
+.duel-item {
   font-size: 0.8rem;
   color: var(--accent);
 }
 
-.revealed-power {
-  font-size: 1.6rem;
+.big-power {
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Dice ------------------------------------------------------------ */
+
+.die {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 1.8rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+}
+
+.die.spinning {
+  animation: die-shake 0.18s linear infinite;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@keyframes die-shake {
+  0% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(6deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
 }
 
 /* --- Actions --------------------------------------------------------- */

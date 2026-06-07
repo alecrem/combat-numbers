@@ -19,13 +19,11 @@ export function useGame() {
 
   function selectCharacter(playerCharacterId: string) {
     const cpuCharacterId = chooseCpuCharacter(state.cpu);
-    dispatch({
-      type: 'SELECT_CHARACTER',
-      playerCharacterId,
-      cpuCharacterId,
-      playerRoll: rollDie(),
-      cpuRoll: rollDie(),
-    });
+    dispatch({ type: 'SELECT_CHARACTER', playerCharacterId, cpuCharacterId });
+  }
+
+  function rollDice() {
+    dispatch({ type: 'ROLL_DICE', playerRoll: rollDie(), cpuRoll: rollDie() });
   }
 
   function selectItem(playerItemId: string | null) {
@@ -53,5 +51,13 @@ export function useGame() {
     dispatch({ type: 'NEW_GAME' });
   }
 
-  return { state, result, selectCharacter, selectItem, continueAfterResult, newGame };
+  return {
+    state,
+    result,
+    selectCharacter,
+    rollDice,
+    selectItem,
+    continueAfterResult,
+    newGame,
+  };
 }

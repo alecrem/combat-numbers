@@ -1,14 +1,23 @@
 import './App.css';
 import { CharacterCardView } from './components/CharacterCardView';
+import { DuelSide } from './components/DuelSide';
 import { Hud } from './components/Hud';
 import { ItemCardView } from './components/ItemCardView';
+import { RollPhase } from './components/RollPhase';
 import { basePower, finalPower } from './game/power';
-import type { GameState, Side } from './game/types';
+import type { GameState } from './game/types';
 import { useGame, type TurnSnapshot } from './useGame';
 
 export default function App() {
-  const { state, result, selectCharacter, selectItem, continueAfterResult, newGame } =
-    useGame();
+  const {
+    state,
+    result,
+    selectCharacter,
+    rollDice,
+    selectItem,
+    continueAfterResult,
+    newGame,
+  } = useGame();
 
   return (
     <div className="game">
@@ -19,6 +28,12 @@ export default function App() {
           <TurnResult result={result} state={state} onContinue={continueAfterResult} />
         ) : state.phase === 'choose-character' ? (
           <CharacterPicker state={state} onPick={selectCharacter} />
+        ) : state.phase === 'reveal-roll' && state.turn.chosen.cpu && state.turn.chosen.player ? (
+          <RollPhase
+            cpu={state.turn.chosen.cpu}
+            player={state.turn.chosen.player}
+            onRoll={rollDice}
+          />
         ) : state.phase === 'choose-item' ? (
           <ItemPicker state={state} onChoose={selectItem} />
         ) : (
@@ -65,17 +80,19 @@ function ItemPicker({
   return (
     <section className="phase">
       <div className="duel">
-        <RevealedCard
+        <DuelSide
           label="CPU"
-          name={chosen.cpu.name}
+          card={chosen.cpu}
           roll={roll.cpu}
+          die={{ value: roll.cpu }}
           power={basePower(chosen.cpu, roll.cpu)}
         />
         <span className="vs">vs</span>
-        <RevealedCard
+        <DuelSide
           label="Tú"
-          name={chosen.player.name}
+          card={chosen.player}
           roll={roll.player}
+          die={{ value: roll.player }}
           power={basePower(chosen.player, roll.player)}
         />
       </div>
@@ -96,27 +113,6 @@ function ItemPicker({
         </div>
       )}
     </section>
-  );
-}
-
-function RevealedCard({
-  label,
-  name,
-  roll,
-  power,
-}: {
-  label: string;
-  name: string;
-  roll: number;
-  power: number;
-}) {
-  return (
-    <div className="revealed">
-      <span className="revealed-label">{label}</span>
-      <span className="revealed-name">{name}</span>
-      <span className="revealed-roll">🎲 {roll}</span>
-      <span className="revealed-power">{power}</span>
-    </div>
   );
 }
 
@@ -144,36 +140,30 @@ function TurnResult({
     <section className="phase result">
       <p className="headline">{headline}</p>
       <div className="duel">
-        <ResultSide snapshot={result.cpu} label="CPU" power={cpuPower} />
+        <DuelSide
+          label="CPU"
+          card={result.cpu.card}
+          roll={result.cpu.roll}
+          die={{ value: result.cpu.roll }}
+          power={cpuPower}
+          itemName={result.cpu.item?.name ?? null}
+          winner={outcome?.kind === 'win' && outcome.winner === 'cpu'}
+        />
         <span className="vs">vs</span>
-        <ResultSide snapshot={result.player} label="Tú" power={playerPower} />
+        <DuelSide
+          label="Tú"
+          card={result.player.card}
+          roll={result.player.roll}
+          die={{ value: result.player.roll }}
+          power={playerPower}
+          itemName={result.player.item?.name ?? null}
+          winner={outcome?.kind === 'win' && outcome.winner === 'player'}
+        />
       </div>
       <button type="button" className="action" onClick={onContinue}>
         Continuar
       </button>
     </section>
-  );
-}
-
-function ResultSide({
-  snapshot,
-  label,
-  power,
-}: {
-  snapshot: TurnSnapshot[Side];
-  label: string;
-  power: number;
-}) {
-  return (
-    <div className="revealed">
-      <span className="revealed-label">{label}</span>
-      <span className="revealed-name">{snapshot.card.name}</span>
-      <span className="revealed-roll">🎲 {snapshot.roll}</span>
-      <span className="revealed-item">
-        {snapshot.item ? snapshot.item.name : 'sin objeto'}
-      </span>
-      <span className="revealed-power">{power}</span>
-    </div>
   );
 }
 
