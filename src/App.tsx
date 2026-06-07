@@ -28,6 +28,7 @@ export default function App() {
         <LanguageSelector />
       </div>
 
+      <Hud title={t.hud.you} side={state.player} revealItems />
       <Hud title={t.hud.cpu} side={state.cpu} revealItems={false} />
 
       <main className="board">
@@ -50,7 +51,6 @@ export default function App() {
         )}
       </main>
 
-      <Hud title={t.hud.you} side={state.player} revealItems />
     </div>
   );
 }
@@ -95,19 +95,19 @@ function ItemPicker({
     <section className="phase">
       <div className="duel">
         <DuelSide
-          label={t.hud.cpu}
-          card={chosen.cpu}
-          roll={roll.cpu}
-          die={{ value: roll.cpu }}
-          power={basePower(chosen.cpu, roll.cpu)}
-        />
-        <span className="vs">vs</span>
-        <DuelSide
           label={t.hud.you}
           card={playerCard}
           roll={playerRoll}
           die={{ value: playerRoll }}
           power={basePower(playerCard, playerRoll)}
+        />
+        <span className="vs">vs</span>
+        <DuelSide
+          label={t.hud.cpu}
+          card={chosen.cpu}
+          roll={roll.cpu}
+          die={{ value: roll.cpu }}
+          power={basePower(chosen.cpu, roll.cpu)}
         />
       </div>
 
@@ -169,17 +169,6 @@ function TurnResult({
       <p className="headline">{headline}</p>
       <div className="duel">
         <DuelSide
-          label={t.hud.cpu}
-          card={result.cpu.card}
-          roll={result.cpu.roll}
-          die={{ value: result.cpu.roll }}
-          power={cpuPower}
-          baseline={cpuBase}
-          item={result.cpu.item}
-          status={statusFor('cpu')}
-        />
-        <span className="vs">vs</span>
-        <DuelSide
           label={t.hud.you}
           card={result.player.card}
           roll={result.player.roll}
@@ -188,6 +177,17 @@ function TurnResult({
           baseline={playerBase}
           item={result.player.item}
           status={statusFor('player')}
+        />
+        <span className="vs">vs</span>
+        <DuelSide
+          label={t.hud.cpu}
+          card={result.cpu.card}
+          roll={result.cpu.roll}
+          die={{ value: result.cpu.roll }}
+          power={cpuPower}
+          baseline={cpuBase}
+          item={result.cpu.item}
+          status={statusFor('cpu')}
         />
       </div>
       <button type="button" className="action" onClick={onContinue}>

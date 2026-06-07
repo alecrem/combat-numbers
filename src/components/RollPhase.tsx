@@ -51,17 +51,17 @@ export function RollPhase({ cpu, player, onRoll }: Props) {
       <p className="prompt">{t.prompts.rollPhase}</p>
       <div className="duel">
         <DuelSide
-          label={t.hud.cpu}
-          card={cpu}
-          roll={null}
-          die={{ value: faces.cpu, spinning: rolling }}
-        />
-        <span className="vs">vs</span>
-        <DuelSide
           label={t.hud.you}
           card={player}
           roll={null}
           die={{ value: faces.player, spinning: rolling }}
+        />
+        <span className="vs">vs</span>
+        <DuelSide
+          label={t.hud.cpu}
+          card={cpu}
+          roll={null}
+          die={{ value: faces.cpu, spinning: rolling }}
         />
       </div>
       <button type="button" className="action" onClick={handleRoll} disabled={rolling}>
