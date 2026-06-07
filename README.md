@@ -28,6 +28,15 @@ pnpm dev      # servidor de desarrollo (http://localhost:5173)
 - `pnpm test` — tests (Vitest).
 - `pnpm typecheck` — comprobación de tipos.
 - `pnpm lint` — ESLint.
+- `pnpm verify` — typecheck + lint + test (lo que corre el hook y CI).
+
+## Calidad y CI
+
+- **Pre-commit hook** (sin dependencias): un script versionado en `.githooks/`
+  corre `pnpm verify` antes de cada commit. Se activa solo: el script `prepare`
+  apunta git a esa carpeta (`core.hooksPath`) al hacer `pnpm install`.
+- **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)): en cada Pull
+  Request y push a `main` se ejecutan typecheck, lint, test y build.
 
 ## Idiomas
 

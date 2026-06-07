@@ -1,0 +1,4 @@
+#!/bin/sh
+# Hook versionado (ver core.hooksPath en el script `prepare` de package.json).
+# Corre los mismos checks que CI antes de cada commit. Son rápidos (~segundos).
+pnpm verify
