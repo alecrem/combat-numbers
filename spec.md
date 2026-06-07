@@ -134,4 +134,6 @@ del Item aplicado (si hay).
 - **Pulido visual (#5):** el dado (`Die`) muestra puntos (pips) en una rejilla
   3×3 en vez del número (con `aria-label` para accesibilidad); las cartas de
   objeto llevan un icono SVG según el efecto (doble chevrón = doblar, flecha =
-  sumar). Nuevo `ItemIcon`.
+  sumar). Nuevo `ItemIcon`. En el resultado, el objeto usado por cada jugador se
+  muestra como carta (icono + efecto) y el poder como `base → final` cuando el
+  Item lo modifica, para que se vea qué ha pasado con puntos y objetos.

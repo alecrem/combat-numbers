@@ -145,6 +145,8 @@ function TurnResult({
   onContinue: () => void;
 }) {
   const { t } = useI18n();
+  const playerBase = basePower(result.player.card, result.player.roll);
+  const cpuBase = basePower(result.cpu.card, result.cpu.roll);
   const playerPower = finalPower(result.player.card, result.player.roll, result.player.item);
   const cpuPower = finalPower(result.cpu.card, result.cpu.roll, result.cpu.item);
   const outcome = state.lastOutcome;
@@ -172,7 +174,8 @@ function TurnResult({
           roll={result.cpu.roll}
           die={{ value: result.cpu.roll }}
           power={cpuPower}
-          itemName={result.cpu.item ? (t.cards[result.cpu.item.id] ?? result.cpu.item.name) : null}
+          baseline={cpuBase}
+          item={result.cpu.item}
           status={statusFor('cpu')}
         />
         <span className="vs">vs</span>
@@ -182,9 +185,8 @@ function TurnResult({
           roll={result.player.roll}
           die={{ value: result.player.roll }}
           power={playerPower}
-          itemName={
-            result.player.item ? (t.cards[result.player.item.id] ?? result.player.item.name) : null
-          }
+          baseline={playerBase}
+          item={result.player.item}
           status={statusFor('player')}
         />
       </div>
