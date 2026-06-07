@@ -156,6 +156,12 @@ function TurnResult({
         ? t.result.youWin
         : t.result.cpuWins;
 
+  const statusFor = (side: 'player' | 'cpu'): 'winner' | 'loser' | 'tie' | undefined => {
+    if (!outcome) return undefined;
+    if (outcome.kind === 'tie') return 'tie';
+    return outcome.winner === side ? 'winner' : 'loser';
+  };
+
   return (
     <section className="phase result">
       <p className="headline">{headline}</p>
@@ -167,7 +173,7 @@ function TurnResult({
           die={{ value: result.cpu.roll }}
           power={cpuPower}
           itemName={result.cpu.item ? (t.cards[result.cpu.item.id] ?? result.cpu.item.name) : null}
-          winner={outcome?.kind === 'win' && outcome.winner === 'cpu'}
+          status={statusFor('cpu')}
         />
         <span className="vs">vs</span>
         <DuelSide
@@ -179,7 +185,7 @@ function TurnResult({
           itemName={
             result.player.item ? (t.cards[result.player.item.id] ?? result.player.item.name) : null
           }
-          winner={outcome?.kind === 'win' && outcome.winner === 'player'}
+          status={statusFor('player')}
         />
       </div>
       <button type="button" className="action" onClick={onContinue}>

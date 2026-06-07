@@ -124,3 +124,7 @@ del Item aplicado (si hay).
 - **Poder proyectado (#2):** en la fase de objeto, cada carta de objeto muestra
   fijo el poder resultante de tu personaje si lo usas (`→ N`, vía `finalPower`).
   Sin hover, así funciona también en táctil. Sólo presentación.
+- **Énfasis del ganador (#3):** en el resultado, `DuelSide` recibe un `status`
+  (winner/loser/tie): el ganador se realza (escala + glow + animación + chapa
+  "🏆 Ganador" textual), el perdedor se atenúa y el empate tiene estilo propio.
+  Respeta `prefers-reduced-motion`. El resultado textual sigue en el titular.

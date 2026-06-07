@@ -40,6 +40,7 @@ export type Translations = {
     tie: string;
     youWin: string;
     cpuWins: string;
+    winnerBadge: string;
   };
   gameOver: {
     draw: string;
@@ -84,6 +85,7 @@ const es: Translations = {
     tie: 'Empate — los personajes vuelven a la mano',
     youWin: '¡Ganas el turno!',
     cpuWins: 'La CPU gana el turno',
+    winnerBadge: 'Ganador',
   },
   gameOver: {
     draw: 'Empate: ninguno puede sacar personaje',
@@ -145,6 +147,7 @@ const en: Translations = {
     tie: 'Tie — characters return to hand',
     youWin: 'You win the turn!',
     cpuWins: 'The CPU wins the turn',
+    winnerBadge: 'Winner',
   },
   gameOver: {
     draw: 'Draw: neither can play a character',
@@ -206,6 +209,7 @@ const ja: Translations = {
     tie: '引き分け — キャラクターは手札に戻る',
     youWin: 'ターンに勝った！',
     cpuWins: 'CPUがターンに勝った',
+    winnerBadge: '勝者',
   },
   gameOver: {
     draw: '引き分け：両者ともキャラクターを出せない',

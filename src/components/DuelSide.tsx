@@ -14,14 +14,19 @@ type Props = {
   power?: number | null;
   /** Texto del objeto usado; undefined = no mostrar la línea. */
   itemName?: string | null;
-  /** Resalta al ganador del duelo. */
-  winner?: boolean;
+  /** Resultado del duelo para este lado, al resolver el turno. */
+  status?: 'winner' | 'loser' | 'tie';
 };
 
-export function DuelSide({ label, card, roll, die, power, itemName, winner }: Props) {
+export function DuelSide({ label, card, roll, die, power, itemName, status }: Props) {
   const { t } = useI18n();
+  const className = status ? `duel-side ${status}` : 'duel-side';
+
   return (
-    <div className={winner ? 'duel-side winner' : 'duel-side'}>
+    <div className={className}>
+      {status === 'winner' && (
+        <span className="winner-badge">🏆 {t.result.winnerBadge}</span>
+      )}
       <span className="duel-label">{label}</span>
       <CharacterCardView card={card} roll={roll} />
       {die && <Die value={die.value} spinning={die.spinning} />}
