@@ -5,9 +5,11 @@ import { effectLabel } from '../i18n/effect';
 type Props = {
   item: ItemCard;
   onClick?: () => void;
+  /** Poder resultante de tu personaje si usas este objeto. */
+  resultPower?: number;
 };
 
-export function ItemCardView({ item, onClick }: Props) {
+export function ItemCardView({ item, onClick, resultPower }: Props) {
   const { t } = useI18n();
   const name = t.cards[item.id] ?? item.name;
 
@@ -15,6 +17,7 @@ export function ItemCardView({ item, onClick }: Props) {
     <>
       <span className="card-name">{name}</span>
       <span className="item-effect">{effectLabel(t, item.effect)}</span>
+      {resultPower != null && <span className="item-result">→ {resultPower}</span>}
     </>
   );
 

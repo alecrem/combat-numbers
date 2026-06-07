@@ -209,6 +209,12 @@
   font-size: 0.85rem;
 }
 
+.item-card .item-result {
+  font-weight: 800;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* --- Duel / revealed ------------------------------------------------- */
 
 .duel {

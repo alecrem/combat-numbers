@@ -121,3 +121,6 @@ del Item aplicado (si hay).
   `src/i18n/`, contexto + `localStorage` y selector de idioma. Se traduce toda la
   UI, incluidos nombres de cartas y etiquetas de efecto. Test de cobertura de
   traducciones. 31 tests en verde.
+- **Poder proyectado (#2):** en la fase de objeto, cada carta de objeto muestra
+  fijo el poder resultante de tu personaje si lo usas (`→ N`, vía `finalPower`).
+  Sin hover, así funciona también en táctil. Sólo presentación.

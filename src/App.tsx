@@ -88,6 +88,9 @@ function ItemPicker({
     return null;
   }
 
+  const playerCard = chosen.player;
+  const playerRoll = roll.player;
+
   return (
     <section className="phase">
       <div className="duel">
@@ -101,10 +104,10 @@ function ItemPicker({
         <span className="vs">vs</span>
         <DuelSide
           label={t.hud.you}
-          card={chosen.player}
-          roll={roll.player}
-          die={{ value: roll.player }}
-          power={basePower(chosen.player, roll.player)}
+          card={playerCard}
+          roll={playerRoll}
+          die={{ value: playerRoll }}
+          power={basePower(playerCard, playerRoll)}
         />
       </div>
 
@@ -116,7 +119,12 @@ function ItemPicker({
       ) : (
         <div className="hand">
           {state.player.itemHand.map((item) => (
-            <ItemCardView key={item.id} item={item} onClick={() => onChoose(item.id)} />
+            <ItemCardView
+              key={item.id}
+              item={item}
+              onClick={() => onChoose(item.id)}
+              resultPower={finalPower(playerCard, playerRoll, item)}
+            />
           ))}
           <button type="button" className="action subtle" onClick={() => onChoose(null)}>
             {t.buttons.noItem}
