@@ -92,3 +92,7 @@ del Item aplicado (si hay).
 - **Esqueleto + lógica pura:** scaffold Vite + React 19 + TS (pnpm) y Vitest.
   Módulo `src/game/` con tipos, datos de cartas, `power`, `dice`, `ai` y el
   `reducer`. 26 tests en verde; typecheck y lint limpios. UI aún sin tocar.
+- **UI:** hook `useGame` que envuelve el reducer e inyecta dados + decisiones de
+  la CPU. Pantalla en `App.tsx` con las fases (elegir personaje → elegir objeto
+  → resultado → fin de partida), HUD por jugador y componentes de carta. La foto
+  del turno (`TurnSnapshot`) mantiene visible el resultado hasta "Continuar".
