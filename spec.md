@@ -131,3 +131,9 @@ del Item aplicado (si hay).
 - **Responsive / móvil (#4):** botones con altura de toque mínima (44px) y un
   breakpoint (≤540px) que ajusta paddings, tamaños de carta/dado/poder y el HUD
   para que la mano y el duelo reflowen sin desbordar. Solo CSS.
+- **Pulido visual (#5):** el dado (`Die`) muestra puntos (pips) en una rejilla
+  3×3 en vez del número (con `aria-label` para accesibilidad); las cartas de
+  objeto llevan un icono SVG según el efecto (doble chevrón = doblar, flecha =
+  sumar). Nuevo `ItemIcon`. En el resultado, el objeto usado por cada jugador se
+  muestra como carta (icono + efecto) y el poder como `base → final` cuando el
+  Item lo modifica, para que se vea qué ha pasado con puntos y objetos.
