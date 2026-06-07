@@ -137,3 +137,6 @@ del Item aplicado (si hay).
   sumar). Nuevo `ItemIcon`. En el resultado, el objeto usado por cada jugador se
   muestra como carta (icono + efecto) y el poder como `base → final` cuando el
   Item lo modifica, para que se vea qué ha pasado con puntos y objetos.
+- **Reorden de layout (#12):** los dos HUDs van arriba (jugador, luego CPU) y el
+  tablero debajo, para que el HUD del jugador se vea sin scroll. En el duelo, el
+  jugador queda a la izquierda y la CPU a la derecha en todas las fases.
